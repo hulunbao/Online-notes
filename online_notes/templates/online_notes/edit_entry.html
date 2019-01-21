@@ -1,0 +1,15 @@
+{% extends "online_notes/base.html" %}
+
+{% block content %}
+
+  <p><a href="{% url 'online_notes:topic' topic.id %}">{{ topic }}</a></p>
+
+  <p>Edit entry:</p>
+
+   <form action="{% url 'online_notes:edit_entry' entry.id %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">save change</button>
+   </form>
+
+{% endblock content %}

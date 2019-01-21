@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from .models import Topic
+from .models import Topic,Entry
 from .forms import TopicForm,EntryForm
 
 def index(request):
@@ -55,3 +55,21 @@ def new_entry(request,topic_id):
 
     context = {'topic': topic,'form': form}
     return render(request,'online_notes/new_entry.html',context)
+
+def edit_entry(request,entry_id):
+    """编辑现有主题的内容"""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    if request.method != 'POST':
+        # 初次请求，显示当前内容
+        form = EntryForm(instance=entry)
+    else:
+        # POST提交的数据，对数据进行处理
+        form = EntryForm(instance=entry,data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('online_notes:topic',args=[topic.id]))
+
+    context = {'entry': entry,'topic': topic,'form': form}
+    return render(request,'online_notes/edit_entry.html',context)
