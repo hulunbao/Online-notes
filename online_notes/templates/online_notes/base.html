@@ -1,6 +1,12 @@
 <p>
     <a href="{% url 'online_notes:index' %}">Online notes</a> -
-    <a href="{% url 'online_notes:topics' %}">Topics</a>
+    <a href="{% url 'online_notes:topics' %}">Topics</a> -
+     {% if user.is_authenticated %}
+       Hello,{{ user.username }}.
+       <a href="{% url 'users:logout' %}">log out</a>
+     {% else %}
+       <a href="{% url 'users:login' %}">Login</a>
+     {% endif %}
 </p>
 
 {% block content %} {% endblock content %}
