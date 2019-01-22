@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 
     # 我的应用程序
     'online_notes',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
